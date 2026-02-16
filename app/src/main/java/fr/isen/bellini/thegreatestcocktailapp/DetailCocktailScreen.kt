@@ -18,7 +18,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+
+enum class Category {
+    COCKTAIL,
+    NON_ALCOHOLIC
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -29,9 +37,9 @@ fun DetailCocktailScreen() {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Detail Cocktail") },
+                title = { Text("Application de Loan") },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color(0xFFFF5722),
+                    containerColor = Color(0xFFFB9A4D),
                     titleContentColor = Color.White
                 ),
                 actions = {
@@ -55,7 +63,8 @@ fun DetailCocktailScreen() {
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
                 .padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
 
             // Image ronde
@@ -63,27 +72,52 @@ fun DetailCocktailScreen() {
                 painter = painterResource(id = R.drawable.cocktail_image),
                 contentDescription = "Cocktail",
                 contentScale = ContentScale.Crop,
+                alignment = Alignment.CenterStart,
                 modifier = Modifier
                     .size(250.dp)
                     .clip(CircleShape)
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
-
             // Title
             Text(
                 text = "Cocktail Sunrise",
-                style = MaterialTheme.typography.headlineMedium
+                style = MaterialTheme.typography.headlineMedium,
+                fontFamily = FontFamily.Cursive,
+                fontSize = 37.sp
             )
 
-            Text("Category : Classic")
-            Text("Verre : Highball glass")
+            // Chips centrées
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center
+            ) {
 
-            Spacer(modifier = Modifier.height(16.dp))
+                AssistChip(
+                    onClick = {},
+                    label = { Text("Cocktail") },
+                    colors = AssistChipDefaults.assistChipColors(
+                        containerColor = Color(0xFFFCF3B9),
+                        labelColor = Color.Black
+                    )
+                )
+
+                Spacer(modifier = Modifier.width(8.dp))
+
+                AssistChip(
+                    onClick = {},
+                    label = { Text("Non alcoholic") },
+                    colors = AssistChipDefaults.assistChipColors(
+                        containerColor = Color(0xFFFCF3B9),
+                        labelColor = Color.Black
+                    )
+                )
+            }
+
+            Text("Verre : Highball glass")
 
             // Card Ingredients
             ElevatedCard(
-                elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
+                elevation = CardDefaults.cardElevation(defaultElevation = 10.dp),
                 colors = CardDefaults.cardColors(
                     containerColor = Color(0xFFFCdFAA)
                 ),
@@ -93,21 +127,21 @@ fun DetailCocktailScreen() {
                 Column(modifier = Modifier.padding(16.dp)) {
 
                     Text(
-                        text = "Ingredients",
-                        style = MaterialTheme.typography.titleMedium,
-                        color = Color.Black
+                        text = "Ingredients :",
+                        fontSize = 26.sp,
+                        color = Color.Black,
+                        fontFamily = FontFamily.Cursive,
+                        fontWeight = FontWeight.Black
                     )
 
                     Spacer(modifier = Modifier.height(8.dp))
 
-                    Text("- Vodka", color = Color.Black)
-                    Text("- Lemon juice", color = Color.Black)
-                    Text("- Orange juice", color = Color.Black)
-                    Text("- Grenadine", color = Color.Black)
+                    Text("- Vodka")
+                    Text("- Lemon juice")
+                    Text("- Orange juice")
+                    Text("- Grenadine")
                 }
             }
-
-            Spacer(modifier = Modifier.height(16.dp))
 
             // Card Recipe
             ElevatedCard(
@@ -121,16 +155,17 @@ fun DetailCocktailScreen() {
                 Column(modifier = Modifier.padding(16.dp)) {
 
                     Text(
-                        text = "Recipe",
-                        style = MaterialTheme.typography.titleMedium,
-                        color = Color.Black
+                        text = "Recipe :",
+                        fontSize = 26.sp,
+                        color = Color.Black,
+                        fontFamily = FontFamily.Cursive,
+                        fontWeight = FontWeight.Black
                     )
 
                     Spacer(modifier = Modifier.height(8.dp))
 
                     Text(
-                        "Fill a shaker with ice cubes. Add 4 cl of vodka, 2 cl of fresh lemon juice, and 6 cl of orange juice. Pour into a highball glass filled with ice cubes, and slowly add a little grenadine to create a gradient effect. Serve well chilled!",
-                        color = Color.Black
+                        "Fill a shaker with ice cubes. Add 4 cl of vodka, 2 cl of fresh lemon juice, and 6 cl of orange juice. Pour into a highball glass filled with ice cubes, and slowly add a little grenadine to create a gradient effect. Serve well chilled!"
                     )
                 }
             }
