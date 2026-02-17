@@ -1,4 +1,4 @@
-package fr.isen.bellini.thegreatestcocktailapp.ui.theme
+package fr.isen.bellini.thegreatestcocktailapp.ui.theme.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

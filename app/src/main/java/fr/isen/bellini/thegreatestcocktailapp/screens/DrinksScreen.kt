@@ -17,11 +17,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import fr.isen.bellini.thegreatestcocktailapp.DrinksActivity
+import fr.isen.bellini.thegreatestcocktailapp.DetailCocktailActivity
 
 @Composable
-fun CategoriesScreen(paddingValues: PaddingValues) {
-    //retourner Category car j'ai fais l'énum
+fun DrinksScreen(paddingValues: PaddingValues) {
+
 
     val context = LocalContext.current
 
@@ -38,10 +38,9 @@ fun CategoriesScreen(paddingValues: PaddingValues) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .clickable {
-                       val intent = Intent (context, DrinksActivity::class.java)
+                        val intent = Intent (context, DetailCocktailActivity::class.java)
                         context.startActivity(intent)
                         Log.d("tag", "click on $category")
-
                     },
                 colors = CardDefaults.cardColors(
                     containerColor = Color(0xFFFCdFAA)
