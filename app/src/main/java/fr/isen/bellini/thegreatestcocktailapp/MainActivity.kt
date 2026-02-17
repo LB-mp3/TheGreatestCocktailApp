@@ -6,10 +6,13 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Menu
 import androidx.compose.material3.*
@@ -18,9 +21,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import fr.isen.bellini.thegreatestcocktailapp.screens.BottomAppBar
 import fr.isen.bellini.thegreatestcocktailapp.screens.CategoriesScreen
+import fr.isen.bellini.thegreatestcocktailapp.screens.DetailCocktailScreen
+import fr.isen.bellini.thegreatestcocktailapp.screens.FavoritesScreen
 import fr.isen.bellini.thegreatestcocktailapp.ui.theme.TheGreatestCocktailAppTheme
 
 data class TabBarItem(
@@ -55,8 +62,8 @@ class MainActivity : ComponentActivity() {
 
             val favoriteItem = TabBarItem(
                 title = stringResource(R.string.tab_item_favorite),
-                selectedIcon = Icons.Filled.Menu,
-                unselectedIcon = Icons.Outlined.Menu
+                selectedIcon = Icons.Filled.Favorite,
+                unselectedIcon = Icons.Outlined.Favorite
             )
 
             val tabItems = listOf(
@@ -101,9 +108,27 @@ class MainActivity : ComponentActivity() {
 
                 ) { padding ->
 
-                    CategoriesScreen(
-                        paddingValues = padding
-                    )
+                    NavHost(
+                        navController = navController,
+                        startDestination = randomItem.title
+                    ) {
+                        composable(route = randomItem.title) {
+                            DetailCocktailScreen(
+                                padding
+                            )
+                        }
+                        composable(route = categoryItem.title) {
+                            CategoriesScreen(
+                                padding
+                            )
+                        }
+                        composable(route = favoriteItem.title) {
+                            FavoritesScreen(
+                                padding
+                            )
+                        }
+                    }
+
                 }
             }
         }

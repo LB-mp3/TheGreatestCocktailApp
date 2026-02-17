@@ -31,7 +31,6 @@ fun CategoriesScreen(paddingValues: PaddingValues) {
             .padding(horizontal = 16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-
         items(Category.allObjects()) { category ->
 
             Card(

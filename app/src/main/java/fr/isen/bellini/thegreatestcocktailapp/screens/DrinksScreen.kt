@@ -24,7 +24,7 @@ fun DrinksScreen(paddingValues: PaddingValues) {
 
 
     val context = LocalContext.current
-
+    val drinks = listOf("Mojito", "Pina Colada", "Monaco")
     LazyColumn(
         modifier = Modifier
             .padding(paddingValues)
@@ -32,7 +32,7 @@ fun DrinksScreen(paddingValues: PaddingValues) {
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
 
-        items(Category.allObjects()) { category ->
+        items(drinks) { drink ->
 
             Card(
                 modifier = Modifier
@@ -40,14 +40,14 @@ fun DrinksScreen(paddingValues: PaddingValues) {
                     .clickable {
                         val intent = Intent (context, DetailCocktailActivity::class.java)
                         context.startActivity(intent)
-                        Log.d("tag", "click on $category")
+                        Log.d("tag", "click on $drink")
                     },
                 colors = CardDefaults.cardColors(
                     containerColor = Color(0xFFFCdFAA)
                 )
             ) {
                 Text(
-                    text = Category.toString(category),
+                    text = drink,
                     modifier = Modifier.padding(8.dp)
 
                 )
