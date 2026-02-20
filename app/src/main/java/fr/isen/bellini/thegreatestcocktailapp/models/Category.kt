@@ -39,16 +39,14 @@ enum class Category {
 
         fun toString(category: Category): String {
             return when (category) {
-
                 ALCOHOLIC -> "Alcoholic"
                 NON_ALCOHOLIC -> "Non alcoholic"
                 OTHER -> "Other / Unknown"
-
                 BEER -> "Beer"
                 COCKTAIL -> "Cocktail"
                 COCOA -> "Cocoa"
-                COFFEE -> "Coffee"
-                LIQUOR -> "Homemade Liquor"
+                COFFEE -> "Coffee / Tea"
+                LIQUOR -> "Homemade Liqueur"
                 DRINK -> "Ordinary Drink"
                 PUNCH -> "Punch / Party Drink"
                 SHAKE -> "Shake"

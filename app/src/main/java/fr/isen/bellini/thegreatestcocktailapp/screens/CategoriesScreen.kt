@@ -21,7 +21,6 @@ import fr.isen.bellini.thegreatestcocktailapp.DrinksActivity
 
 @Composable
 fun CategoriesScreen(paddingValues: PaddingValues) {
-    //retourner Category car j'ai fais l'énum
 
     val context = LocalContext.current
 
@@ -32,15 +31,14 @@ fun CategoriesScreen(paddingValues: PaddingValues) {
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(Category.allObjects()) { category ->
-
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clickable {
-                       val intent = Intent (context, DrinksActivity::class.java)
+                        val intent = Intent(context, DrinksActivity::class.java)
+                        intent.putExtra("category", Category.toString(category))
                         context.startActivity(intent)
                         Log.d("tag", "click on $category")
-
                     },
                 colors = CardDefaults.cardColors(
                     containerColor = Color(0xFFFCdFAA)
@@ -49,7 +47,6 @@ fun CategoriesScreen(paddingValues: PaddingValues) {
                 Text(
                     text = Category.toString(category),
                     modifier = Modifier.padding(8.dp)
-
                 )
             }
         }

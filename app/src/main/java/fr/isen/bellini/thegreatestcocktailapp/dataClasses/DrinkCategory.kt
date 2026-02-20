@@ -1,4 +1,8 @@
-package fr.isen.bellini.thegreatestcocktailapp.dataClasses;
+package fr.bellini.thegreatestcocktailapp.dataClasses
 
-public class DrinkCategory {
-}
+import com.google.gson.annotations.SerializedName
+
+data class DrinkCategory(
+    @SerializedName("strCategory")
+    val strCategory: String?
+)

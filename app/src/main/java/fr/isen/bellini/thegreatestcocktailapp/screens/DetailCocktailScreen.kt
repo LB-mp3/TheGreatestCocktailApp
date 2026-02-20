@@ -1,28 +1,43 @@
 package fr.isen.bellini.thegreatestcocktailapp.screens
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import fr.isen.bellini.thegreatestcocktailapp.R
+import coil.compose.AsyncImage
+import fr.bellini.thegreatestcocktailapp.dataClasses.Drink
+import fr.isen.bellini.thegreatestcocktailapp.FavoritesManager
 
 @Composable
-fun DetailCocktailScreen(padding: PaddingValues) {
+fun DetailCocktailScreen(padding: PaddingValues, drink: Drink? = null) {
+
+    val context = LocalContext.current
+    val ingredients = drink?.ingredientList() ?: emptyList()
+    val isFavorite = remember {
+        mutableStateOf(
+            if (drink?.idDrink != null) FavoritesManager.isFavorite(context, drink.idDrink)
+            else false
+        )
+    }
 
     Column(
         modifier = Modifier
@@ -34,9 +49,8 @@ fun DetailCocktailScreen(padding: PaddingValues) {
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
 
-
-        Image(
-            painter = painterResource(id = R.drawable.cocktail_image),
+        AsyncImage(
+            model = drink?.strDrinkThumb,
             contentDescription = "Cocktail",
             contentScale = ContentScale.Crop,
             modifier = Modifier
@@ -44,14 +58,29 @@ fun DetailCocktailScreen(padding: PaddingValues) {
                 .clip(CircleShape)
         )
 
-        // Title
         Text(
-            text = "Cocktail Sunrise",
+            text = drink?.strDrink ?: "",
             style = MaterialTheme.typography.headlineMedium,
             fontFamily = FontFamily.Cursive,
             fontSize = 37.sp
         )
 
+        // Bouton favori
+        IconButton(onClick = {
+            val id = drink?.idDrink ?: return@IconButton
+            if (isFavorite.value) {
+                FavoritesManager.removeFavorite(context, id)
+            } else {
+                FavoritesManager.addFavorite(context, id)
+            }
+            isFavorite.value = !isFavorite.value
+        }) {
+            Icon(
+                imageVector = if (isFavorite.value) Icons.Filled.Favorite else Icons.Filled.FavoriteBorder,
+                contentDescription = "Favorite",
+                tint = Color(0xFFFCB274)
+            )
+        }
 
         Row(
             modifier = Modifier
@@ -59,45 +88,32 @@ fun DetailCocktailScreen(padding: PaddingValues) {
                 .padding(top = 10.dp),
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-
             Text(
-                text = "Cocktail",
+                text = drink?.strCategory ?: "",
                 fontSize = 20.sp,
                 modifier = Modifier
-                    .background(
-                        color = Color(0xFFFBCA9A),
-                        shape = RoundedCornerShape(50)
-                    )
+                    .background(color = Color(0xFFFBCA9A), shape = RoundedCornerShape(50))
                     .padding(horizontal = 16.dp, vertical = 6.dp),
                 fontWeight = FontWeight.Medium
             )
-
             Text(
-                text = "Alcoholic",
+                text = drink?.strAlcoholic ?: "",
                 fontSize = 20.sp,
                 modifier = Modifier
-                    .background(
-                        color = Color(0xFFFBCA9A),
-                        shape = RoundedCornerShape(50)
-                    )
+                    .background(color = Color(0xFFFBCA9A), shape = RoundedCornerShape(50))
                     .padding(horizontal = 16.dp, vertical = 6.dp),
                 fontWeight = FontWeight.Medium
             )
         }
 
-        Text("Verre : Highball glass")
+        Text("Verre : ${drink?.strGlass ?: "N/A"}")
 
-        // Card Ingredients
         ElevatedCard(
             elevation = CardDefaults.cardElevation(10.dp),
-            colors = CardDefaults.cardColors(
-                containerColor = Color(0xFFFCdFAA)
-            ),
+            colors = CardDefaults.cardColors(containerColor = Color(0xFFFCdFAA)),
             modifier = Modifier.fillMaxWidth()
         ) {
-
             Column(modifier = Modifier.padding(16.dp)) {
-
                 Text(
                     text = "Ingredients :",
                     fontSize = 26.sp,
@@ -105,27 +121,19 @@ fun DetailCocktailScreen(padding: PaddingValues) {
                     fontFamily = FontFamily.Cursive,
                     fontWeight = FontWeight.Black
                 )
-
                 Spacer(modifier = Modifier.height(8.dp))
-
-                Text("- Vodka")
-                Text("- Lemon juice")
-                Text("- Orange juice")
-                Text("- Grenadine")
+                ingredients.forEach { (ingredient, measure) ->
+                    Text("- $measure $ingredient".trim())
+                }
             }
         }
 
-        // Card Recipe
         ElevatedCard(
             elevation = CardDefaults.cardElevation(6.dp),
-            colors = CardDefaults.cardColors(
-                containerColor = Color(0xFFFCdFAA)
-            ),
+            colors = CardDefaults.cardColors(containerColor = Color(0xFFFCdFAA)),
             modifier = Modifier.fillMaxWidth()
         ) {
-
             Column(modifier = Modifier.padding(16.dp)) {
-
                 Text(
                     text = "Recipe :",
                     fontSize = 26.sp,
@@ -133,12 +141,8 @@ fun DetailCocktailScreen(padding: PaddingValues) {
                     fontFamily = FontFamily.Cursive,
                     fontWeight = FontWeight.Black
                 )
-
                 Spacer(modifier = Modifier.height(8.dp))
-
-                Text(
-                    "Fill a shaker with ice cubes. Add 4 cl of vodka, 2 cl of fresh lemon juice, and 6 cl of orange juice. Pour into a highball glass filled with ice cubes, and slowly add a little grenadine to create a gradient effect. Serve well chilled!"
-                )
+                Text(drink?.strInstructions ?: "Aucune instruction disponible.")
             }
         }
     }
