@@ -35,4 +35,6 @@ interface ApiService {
     suspend fun getDrinkDetail(
         @Query("i") drinkId: String
     ): CocktailResponse
+
+
 }

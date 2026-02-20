@@ -1,5 +1,4 @@
 package fr.isen.bellini.thegreatestcocktailapp
-
 import android.content.Context
 
 object FavoritesManager {

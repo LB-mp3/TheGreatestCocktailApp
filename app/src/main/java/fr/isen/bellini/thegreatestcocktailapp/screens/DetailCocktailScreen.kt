@@ -1,5 +1,4 @@
 package fr.isen.bellini.thegreatestcocktailapp.screens
-
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.verticalScroll
@@ -106,7 +105,7 @@ fun DetailCocktailScreen(padding: PaddingValues, drink: Drink? = null) {
             )
         }
 
-        Text("Verre : ${drink?.strGlass ?: "N/A"}")
+        Text("Glass: ${drink?.strGlass ?: "N/A"}")
 
         ElevatedCard(
             elevation = CardDefaults.cardElevation(10.dp),
@@ -142,7 +141,7 @@ fun DetailCocktailScreen(padding: PaddingValues, drink: Drink? = null) {
                     fontWeight = FontWeight.Black
                 )
                 Spacer(modifier = Modifier.height(8.dp))
-                Text(drink?.strInstructions ?: "Aucune instruction disponible.")
+                Text(drink?.strInstructions ?: "No instructions available.")
             }
         }
     }
