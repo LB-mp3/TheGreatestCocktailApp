@@ -26,6 +26,7 @@ import coil.compose.AsyncImage
 import fr.bellini.thegreatestcocktailapp.dataClasses.Drink
 import fr.isen.bellini.thegreatestcocktailapp.FavoritesManager
 
+
 @Composable
 fun DetailCocktailScreen(padding: PaddingValues, drink: Drink? = null) {
 
