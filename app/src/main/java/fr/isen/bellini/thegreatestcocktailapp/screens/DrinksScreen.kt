@@ -2,13 +2,15 @@ package fr.isen.bellini.thegreatestcocktailapp.screens
 
 import android.content.Intent
 import android.util.Log
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -17,6 +19,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -39,14 +42,24 @@ fun DrinksScreen(paddingValues: PaddingValues, category: String) {
         Log.d("network", "drinks loaded: ${drinks.value.size}")
     }
 
+    val orangeGradient = Brush.verticalGradient(
+        colors = listOf(
+            Color(0xFF5A2400),
+            Color(0xFFB34700),
+            Color(0xFFFF9E4A)
+        )
+    )
+
     LazyColumn(
         modifier = Modifier
+            .fillMaxSize()
+            .background(orangeGradient)
             .padding(paddingValues)
             .padding(horizontal = 16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(drinks.value) { drink ->
-            Card(
+            OutlinedCard(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clickable {
@@ -55,11 +68,13 @@ fun DrinksScreen(paddingValues: PaddingValues, category: String) {
                         context.startActivity(intent)
                         Log.d("tag", "click on ${drink.strDrink}")
                     },
+                shape = RoundedCornerShape(16.dp),
                 colors = CardDefaults.cardColors(
-                    containerColor = Color(0xFFFCdFAA)
-                )
+                    containerColor = Color(0x33FFFFFF)
+                ),
+                border = BorderStroke(1.dp, Color(0xAAFFFFFF)),
+                elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
             ) {
-                //J'ai mis un Row ici pour pouvoir afficher les images à cote du texte
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -77,7 +92,8 @@ fun DrinksScreen(paddingValues: PaddingValues, category: String) {
                     )
                     Text(
                         text = drink.strDrink ?: "",
-                        fontSize = 16.sp
+                        fontSize = 16.sp,
+                        color = Color.White
                     )
                 }
             }

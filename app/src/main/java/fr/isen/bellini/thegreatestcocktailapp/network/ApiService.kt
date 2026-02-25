@@ -1,3 +1,5 @@
+
+
 package fr.isen.bellini.thegreatestcocktailapp.network
 
 import fr.bellini.thegreatestcocktailapp.dataClasses.CategoryListResponse
@@ -37,4 +39,17 @@ interface ApiService {
     ): CocktailResponse
 
 
+// Ici consigne 6 du TP
+
+    /** Recherche par nom : search.php?s=margarita */
+    @GET("search.php")
+    suspend fun searchByName(
+        @Query("s") name: String
+    ): CocktailResponse
+
+    /** Recherche par ingrédient : filter.php?i=vodka */
+    @GET("filter.php")
+    suspend fun searchByIngredient(
+        @Query("i") ingredient: String
+    ): DrinkFilterResponse
 }

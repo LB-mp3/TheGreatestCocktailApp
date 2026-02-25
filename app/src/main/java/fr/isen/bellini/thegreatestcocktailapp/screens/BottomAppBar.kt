@@ -3,6 +3,7 @@ package fr.isen.bellini.thegreatestcocktailapp.screens
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavController
 import fr.isen.bellini.thegreatestcocktailapp.TabBarItem
@@ -17,9 +18,11 @@ fun BottomAppBar(
         mutableStateOf(0)
     }
 
-    NavigationBar {
+    NavigationBar(
+        containerColor = Color(0x99FF9A3C),
+        contentColor = Color.White
+    ) {
         items.forEachIndexed { index, item ->
-
             NavigationBarItem(
                 selected = selectedTabIndex == index,
                 onClick = {
@@ -28,7 +31,7 @@ fun BottomAppBar(
                 },
                 icon = {
                     TabBarIcon(
-                        isSelected= selectedTabIndex == index,
+                        isSelected = selectedTabIndex == index,
                         item.selectedIcon,
                         item.selectedIcon,
                         item.title
@@ -36,7 +39,14 @@ fun BottomAppBar(
                 },
                 label = {
                     Text(item.title)
-                }
+                },
+                colors = NavigationBarItemDefaults.colors(
+                    selectedIconColor   = Color.White,
+                    unselectedIconColor = Color(0xCCFFFFFF),
+                    selectedTextColor   = Color.White,
+                    unselectedTextColor = Color(0xCCFFFFFF),
+                    indicatorColor      = Color(0x33FFFFFF)
+                )
             )
         }
     }

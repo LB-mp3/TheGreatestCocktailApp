@@ -6,14 +6,15 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Menu
+import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
@@ -31,6 +32,7 @@ import fr.isen.bellini.thegreatestcocktailapp.screens.BottomAppBar
 import fr.isen.bellini.thegreatestcocktailapp.screens.CategoriesScreen
 import fr.isen.bellini.thegreatestcocktailapp.screens.DetailCocktailScreen
 import fr.isen.bellini.thegreatestcocktailapp.screens.FavoritesScreen
+import fr.isen.bellini.thegreatestcocktailapp.screens.SearchScreen
 import fr.isen.bellini.thegreatestcocktailapp.ui.theme.TheGreatestCocktailAppTheme
 
 data class TabBarItem(
@@ -55,42 +57,41 @@ class MainActivity : ComponentActivity() {
                 selectedIcon = Icons.Filled.Home,
                 unselectedIcon = Icons.Outlined.Home
             )
-
             val categoryItem = TabBarItem(
                 title = stringResource(R.string.tab_item_category),
                 selectedIcon = Icons.Filled.Menu,
                 unselectedIcon = Icons.Outlined.Menu
             )
-
+            val searchItem = TabBarItem(
+                title = "Search",
+                selectedIcon = Icons.Filled.Search,
+                unselectedIcon = Icons.Outlined.Search
+            )
             val favoriteItem = TabBarItem(
                 title = stringResource(R.string.tab_item_favorite),
                 selectedIcon = Icons.Filled.Favorite,
                 unselectedIcon = Icons.Outlined.Favorite
             )
 
-            val tabItems = listOf(randomItem, categoryItem, favoriteItem)
+            val tabItems = listOf(randomItem, categoryItem, searchItem, favoriteItem)
 
             TheGreatestCocktailAppTheme {
-
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
-
                     topBar = {
                         TopAppBar(
-                            title = { Text("Loan's Application") },
+                            title = { Text("Cocktail App") },
                             colors = TopAppBarDefaults.topAppBarColors(
-                                containerColor = Color(0xFFFCB274),
+                                containerColor = Color(0x99FF9A3C),
                                 titleContentColor = Color.White
                             )
                         )
                     },
-
                     bottomBar = {
                         BottomAppBar(tabItems, navController)
-                    }
-
+                    },
+                    containerColor = Color.Transparent
                 ) { padding ->
-
                     NavHost(
                         navController = navController,
                         startDestination = randomItem.title
@@ -110,6 +111,9 @@ class MainActivity : ComponentActivity() {
                         }
                         composable(route = categoryItem.title) {
                             CategoriesScreen(padding)
+                        }
+                        composable(route = "Search") {
+                            SearchScreen(padding)
                         }
                         composable(route = favoriteItem.title) {
                             FavoritesScreen(padding)
